@@ -1,0 +1,144 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* #products-header h1 {
+  align-items: center;
+} */
+
+.welcome {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* #products-header .first-row {
+  display: flex;
+} */
+
+.right {
+  display: flex;
+  justify-content: end;
+}
+
+/* .div-cart-btn {
+  display: flex;
+  justify-content: end;
+} */
+.view-cart {
+  /* margin-bottom: 15px; */
+  background: #b9d19b;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.logout {
+  margin-left: 1em;
+  background: #9c8673;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.div-title {
+  display: flex;
+  justify-content: center;
+}
+#products {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.product {
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 300px;
+  border: 1px solid black;
+  align-items: center;
+  padding: 15px 15px 0px 15px;
+  background-color: rgb(241, 240, 233);
+}
+
+.product span {
+  font-weight: 700;
+}
+
+.add-product {
+  margin-bottom: 15px;
+  background: #9dd4bb;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navigate-before,
+.navigate-next {
+  width: 2em;
+  height: 2em;
+}
+
+.page {
+  font-size: 18px;
+  font-weight: 700;
+}
+.div-products-btn {
+  margin-bottom: 1em;
+}
+.view-products {
+  text-decoration: none;
+  border: 1px solid #333333;
+  background: #9dd4bb;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  font-size: 1em;
+  font-weight: 700;
+  cursor: pointer;
+}
+#cart-products {
+  border-collapse: collapse;
+}
+
+#cart-products td,
+#cart-products th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#cart-products tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#cart-products tr:hover {
+  background-color: #ddd;
+}
+
+#cart-products th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #7799e4;
+  color: white;
+}

@@ -1,0 +1,68 @@
+<div id="products-header">
+  <div class="first-row">
+
+    <div class="right">
+      <div class="div-cart-btn"><button
+          class="view-cart"
+          onclick="gotoCart()"
+        >Ir al carrito</button></div>
+      <div id="div-logout">
+        <button onclick="logout()" class="logout">Logout</button>
+      </div>
+    </div>
+  </div>
+  <p class="welcome">Bienvenido a la tienda
+    {{user.name}}!
+    {{#if user.admin}}Soy Admin.{{else}}Soy Usuario.{{/if}}</p>
+  <div class="div-title"><h1>Listado de productos</h1></div>
+</div>
+<div id="products">
+  {{#each data.payload}}
+    {{#if status}}
+      <div class="product">
+        <span>ID</span>
+        <p>{{_id}}</p>
+        <span>Título</span>
+        <p>{{title}}</p>
+        <span>Código</span>
+        <p>{{code}}</p>
+        <span>Descripción</span>
+        <p>{{description}}</p>
+        <span>Precio</span>
+        <p>{{price}}</p>
+        <span>Cantidad disponible</span>
+        <p>{{stock}}</p>
+        <span>Categoría</span>
+        <p>{{category}}</p>
+        <button class="add-product" onclick="addProduct('{{_id}}')">Agregar al
+          carrito</button>
+      </div>
+    {{/if}}
+  {{/each}}
+</div>
+
+<div id="pagination">
+  {{#if data.hasPrevPage}}
+    <button><a href={{data.prevLink}}><svg
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root navigate-before"
+          focusable="false"
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          data-testid="NavigateBeforeIcon"
+        ><path
+            d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+          ></path></svg></a></button>{{/if}}
+  <span class="page">{{data.page}}</span>
+  {{#if data.hasNextPage}}
+    <button><a href={{data.nextLink}}><svg
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root navigate-next"
+          focusable="false"
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          data-testid="NavigateNextIcon"
+        ><path
+            d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+          ></path></svg></a></button>
+  {{/if}}
+</div>
+<script src="/js/products.js"></script>

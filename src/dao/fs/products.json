@@ -1,0 +1,43 @@
+[
+  {
+    "id": 1,
+    "title": "Pintura Berel Blanco",
+    "description": "Pintura blanco mate, 25L",
+    "code": "X0A21232",
+    "price": 1500,
+    "status": true,
+    "stock": 5,
+    "category": "Pintura",
+    "thumbnail": ["/public/images/imagen1.jpg", "/public/images/imagen2.jpg"]
+  },
+  {
+    "id": 2,
+    "title": "Brocha gruesa",
+    "description": "Brocha para pintar 20cm",
+    "code": "BGDG1456",
+    "price": 50,
+    "stock": 20,
+    "category": "Herramientas para pintar",
+    "status": true
+  },
+  {
+    "id": 3,
+    "title": "Llave allien 4 mm",
+    "description": "Llave allien acero inoxidable de 4 mm",
+    "code": "RETC4524",
+    "price": 60,
+    "status": true,
+    "stock": 7,
+    "category": "Herramientas"
+  },
+  {
+    "id": 4,
+    "title": "Vernier digital",
+    "description": "Vernier para medidas de precision con pantalla lcd",
+    "code": "CACH6871",
+    "price": 160,
+    "status": true,
+    "stock": 3,
+    "category": "Herramientas"
+  }
+]
