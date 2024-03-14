@@ -57,6 +57,25 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] }),
+  async (req, res) => {}
+);
+
+router.get(
+  "/githubcallback",
+  passport.authenticate("github", {
+    failureRedirect: "/login",
+    failureMessage: true,
+  }),
+  async (req, res) => {
+    req.session.user = req.user;
+    //manda un mensaje exitoso
+    res.redirect("/products");
+  }
+);
+
 //Ruta para restaurar la contraseña
 router.post("/restore", async (req, res) => {
   try {
