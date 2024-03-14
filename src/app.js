@@ -14,6 +14,8 @@ import { mongoURL } from "./config/config.js";
 import MongoStore from "connect-mongo";
 import session from "express-session";
 import cookieParser from "cookie-parser";
+import initializePassport from "./config/passport.config.js";
+import passport from "passport";
 
 const app = express();
 const PORT = 8080;
@@ -48,6 +50,11 @@ httpServer.listen(PORT, () =>
 //creando el servidor de sockets
 const io = new Server(httpServer);
 
+//Configuracion de passport
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
 //Configuracion de handlebars
 //se le dice al engine que la extendion de handbelars sera hbs
 app.engine(".hbs", handlebars.engine({ extname: ".hbs" }));
@@ -60,7 +67,7 @@ app.use(express.static(__dirname + "/public"));
 //asignacion de routers
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
-app.use("/api/session", sessionRouter);
+app.use("/api/sessions", sessionRouter);
 app.use("/", viewsRouter);
 
 //crea una instancia del MessageManager

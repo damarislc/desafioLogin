@@ -22,6 +22,10 @@ router.get("/register", (req, res) => {
   res.render("register", { title: "Registro" });
 });
 
+router.get("/restore", (req, res) => {
+  res.render("restore");
+});
+
 //Obtiene los productos desde un fetch de la api de products
 router.get("/products", (req, res) => {
   if (!req.session?.user) {

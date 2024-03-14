@@ -1,76 +1,43 @@
 import express from "express";
 import userModel from "../dao/models/user.model.js";
+import passport from "passport";
+import { createHash } from "../utils.js";
 
 const router = express.Router();
 
-//Ruta para guardar el usuario que se quiere registrar
-router.post("/register", async (req, res) => {
-  //Recibe el contenido del form
-  const { name, lastname, email, password } = req.body;
-
-  try {
-    //Busca si el email ya se ha registrado anteriormente
-    const user = await userModel.findOne({ email });
-
-    //si el usuario ya existe, se manda un mensaje de error
-    if (user) {
-      console.log("se encontro un usuario");
-      return res
-        .status(401)
-        .send({ status: "error", message: "El email ya existe" });
+/**
+ * Ruta para guardar el usuario que se quiere registrar.
+ * Se utiliza passport authenticate para la validación.
+ * En mi caso cambié la forma de usarlo por medio de un callback
+ * en vez del redirect para poder seguir mandando los mensajes de
+ * error a mi front y manejar desde ahí como ve el error el usuario.
+ */
+router.post("/register", (req, res, next) => {
+  passport.authenticate("register", (err, user, info) => {
+    if (err) return next(err);
+    if (!user) {
+      return res.status(401).send({ status: "error", message: info.message });
     }
-
-    //se asigna el rol de usuario por default
-    let role = "user";
-
-    //crea un nuevo usuario dentro de la base de datos
-    await userModel.create({ name, lastname, email, password, role });
-
-    //manda mensaje de que le usuario ha sido creado
     res.status(200).send({
       status: "success",
       message: "Usuario creado correctamente",
     });
-  } catch (error) {
-    //en caso de que haya habido un error, se manda el mensaje de error
-    res.status(500).send({
-      status: "error",
-      message: `Error al crear el usuario. ${error}`,
-    });
-  }
+  })(req, res, next);
 });
 
-//ruta para buscar al usario que quiere hacer login
-router.post("/login", async (req, res) => {
-  //recibe los datos del form
-  const { email, password } = req.body;
-
-  try {
-    //valor booleano para poderlo usar mas facilmente en handlebars
-    let isAdmin = false;
-    let user;
-    if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
-      isAdmin = true;
-      user = {
-        name: "Coder",
-        lastname: "House",
-        email: "adminCoder@coder.com",
-        role: "admin",
-        admin: isAdmin,
-      };
-    } else {
-      //busa el usuario que coincida con el email y contraseña
-      user = await userModel.findOne({ email, password });
-    }
-    //si el usuario no existe se manda mensaje de error
+/**
+ * Ruta para buscar al usario que quiere hacer login
+ * al igual que en el register, se cambio el modo que se usa el auth.
+ */
+router.post("/login", (req, res, next) => {
+  passport.authenticate("login", (err, user, info) => {
+    if (err) return next(err);
     if (!user) {
       return res.status(401).send({
         status: "error",
-        message: "Usuario o contraseña incorrecto",
+        message: info.message,
       });
     }
-
-    //Valida si el role es admin para añadir un booleano para usarlo en handlebars
 
     //crea un usuario en la sesion
     req.session.user = {
@@ -78,7 +45,7 @@ router.post("/login", async (req, res) => {
       lastname: user.lastname,
       email: user.email,
       role: user.role,
-      admin: isAdmin,
+      admin: user.admin,
     };
 
     //manda un mensaje exitoso
@@ -87,12 +54,31 @@ router.post("/login", async (req, res) => {
       payload: req.session.user,
       message: "login exitoso",
     });
-  } catch (error) {
-    //en caso de que haya habido un error, se manda el mensaje de error
-    res.status(500).send({
-      status: "error",
-      message: `Error al obtener el usuario. ${error}`,
+  })(req, res, next);
+});
+
+//Ruta para restaurar la contraseña
+router.post("/restore", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password)
+      return res
+        .status(400)
+        .send({ status: "error", error: "Todos los campos son obligatorios" });
+    const user = await userModel.findOne({ email });
+    if (!user)
+      return res
+        .status(401)
+        .send({ status: "error", error: "Usuario incorrecto" });
+    user.password = createHash(password);
+    await userModel.updateOne({ email }, { password: user.password });
+    //manda un mensaje exitoso
+    res.status(200).send({
+      status: "success",
+      message: "Contraseña actualizada correctamente",
     });
+  } catch (error) {
+    res.status(500).send(`Error al restablecer contraseña. ${error}`);
   }
 });
 

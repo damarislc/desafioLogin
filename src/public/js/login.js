@@ -12,7 +12,7 @@ form.addEventListener("submit", (event) => {
   data.forEach((value, key) => (obj[key] = value));
 
   //hace un fetch a la api de login con la informacion introducida por el usuario
-  fetch("/api/session/login", {
+  fetch("/api/sessions/login", {
     method: "POST",
     body: JSON.stringify(obj),
     headers: {
